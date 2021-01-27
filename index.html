@@ -19,7 +19,9 @@
     const App = ()=>{
 
         const [counters,setCounters] = React.useState([])
-        const Increment =()=>{}
+        const Increment =(index)=>{
+            setCounters(counters.map((ele,idx)=>idx===index ?ele+1:ele))
+        }
         const addCounter = ()=>{
             setCounters(counters.concat([0]))
         }
@@ -29,7 +31,7 @@
                     return(
                         <div key = {index}>
                             <h1>{ele}</h1>
-                            <button onClick={Increment}>Increment</button>
+                            <button onClick={()=>Increment(index)}>Increment</button>
                         </div>
                     )
                 })}
@@ -43,6 +45,3 @@
     </script>
 </body>
 </html>
-
-
-
