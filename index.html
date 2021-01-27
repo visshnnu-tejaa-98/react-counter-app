@@ -25,7 +25,7 @@
         )
     }
 
-    const App = ()=>{
+    const CounterApp = ()=>{
 
         const [counters,setCounters] = React.useState([])
         const Increment =(index)=>{
@@ -39,6 +39,27 @@
                 {counters.map((ele,index)=><Counter key = {index} count = {ele} increment = {()=>Increment(index)}/>)}
                 
                 <button onClick={addCounter}>Add Counter</button>
+            </div>
+        )
+    }
+
+    const TodoApp = ()=>{
+        return(
+            <div>
+                To Do App
+            </div>
+        )
+    }
+
+    const App = ()=>{
+        const [show,setShow] = React.useState("TODO")
+        const change = ()=>{
+            setShow(show==="TODO"?"COUNTER":"TODO")
+        }
+        return(
+            <div>
+                <button onClick = {change}>Change App</button>
+                {show==="TODO" ? <TodoApp /> : <CounterApp />}
             </div>
         )
     }
