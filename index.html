@@ -16,6 +16,15 @@
     <div id="root"></div>
     <script type="text/babel">
 
+    const Counter = ({count,increment})=>{
+        return(
+            <div>
+                <h1>{count}</h1>
+                <button onClick={increment}>Increment</button>
+            </div>
+        )
+    }
+
     const App = ()=>{
 
         const [counters,setCounters] = React.useState([])
@@ -27,14 +36,7 @@
         }
         return(
             <div>
-                {counters.map((ele,index)=>{
-                    return(
-                        <div key = {index}>
-                            <h1>{ele}</h1>
-                            <button onClick={()=>Increment(index)}>Increment</button>
-                        </div>
-                    )
-                })}
+                {counters.map((ele,index)=><Counter key = {index} count = {ele} increment = {()=>Increment(index)}/>)}
                 
                 <button onClick={addCounter}>Add Counter</button>
             </div>
