@@ -1,70 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- react -->
-    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
-    <!-- babel js -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <!-- bootstrap -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-    <title>Document</title>
-</head>
-<body>
-    <div id="root"></div>
-    <script type="text/babel">
-
-    const Counter = ({count,increment})=>{
-        return(
-            <div>
-                <h1>{count}</h1>
-                <button onClick={increment}>Increment</button>
-            </div>
-        )
-    }
-
-    const CounterApp = ()=>{
-
-        const [counters,setCounters] = React.useState([])
-        const Increment =(index)=>{
-            setCounters(counters.map((ele,idx)=>idx===index ?ele+1:ele))
-        }
-        const addCounter = ()=>{
-            setCounters(counters.concat([0]))
-        }
-        return(
-            <div>
-                {counters.map((ele,index)=><Counter key = {index} count = {ele} increment = {()=>Increment(index)}/>)}
-                
-                <button onClick={addCounter}>Add Counter</button>
-            </div>
-        )
-    }
-
-    const TodoApp = ()=>{
-        return(
-            <div>
-                To Do App
-            </div>
-        )
-    }
-
-    const App = ()=>{
-        const [show,setShow] = React.useState("TODO")
-        const change = ()=>{
-            setShow(show==="TODO"?"COUNTER":"TODO")
-        }
-        return(
-            <div>
-                <button onClick = {change}>Change App</button>
-                {show==="TODO" ? <TodoApp /> : <CounterApp />}
-            </div>
-        )
-    }
-
-    ReactDOM.render(<App />,document.getElementById("root"));
-    </script>
-</body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<!-- react -->
+		<script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+		<script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+		<!-- babel js -->
+		<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+		<!-- bootstrap -->
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+			integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+			crossorigin="anonymous"
+		/>
+		<!-- font awesome -->
+		<script src="https://kit.fontawesome.com/7f08385778.js" crossorigin="anonymous"></script>
+		<title>Document</title>
+	</head>
+	<body>
+		<div id="root"></div>
+		<script type="text/babel">
+			const App = () => {
+				const [count, setCount] = React.useState(0);
+				const decrement = () => {
+					setCount((prev) => prev - 1);
+				};
+				const increment = () => {
+					setCount((prev) => prev + 1);
+				};
+				return (
+					<div>
+						<button className='btn btn-secondary' onClick={decrement}>
+							-
+						</button>
+						<span className='h3 m-3'>{count}</span>
+						<button className='btn btn-secondary' onClick={increment}>
+							+
+						</button>
+					</div>
+				);
+			};
+			ReactDOM.render(<App />, document.getElementById('root'));
+		</script>
+	</body>
 </html>
