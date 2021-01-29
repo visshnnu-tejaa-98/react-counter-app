@@ -22,7 +22,7 @@
 	<body>
 		<div id="root"></div>
 		<script type="text/babel">
-			const Counter = ({ decrement, increment, count }) => {
+			const Counter = ({ decrement, increment, count, deleteCounter }) => {
 				return (
 					<div>
 						<button className='btn btn-secondary' onClick={decrement}>
@@ -31,6 +31,9 @@
 						<span className='h3 m-3'>{count}</span>
 						<button className='btn btn-secondary' onClick={increment}>
 							+
+						</button>
+						<button className='btn btn-danger ml-1' onClick={deleteCounter}>
+							<i className='fas fa-trash-alt'></i>
 						</button>
 					</div>
 				);
@@ -47,6 +50,11 @@
 				const addCounter = () => {
 					setCounters(counters.concat([0]));
 				};
+				const deleteCounter = (index) => {
+					let array = counters;
+					array.splice(index, 1);
+					setCounters(counters.map((ele, idx) => (ele !== index ? ele : ele)));
+				};
 				return (
 					<div>
 						<button onClick={addCounter} className='btn btn-primary'>
@@ -60,6 +68,7 @@
 										count={ele}
 										increment={() => increment(index)}
 										decrement={() => decrement(index)}
+										deleteCounter={() => deleteCounter(index)}
 									/>
 								</div>
 							);
