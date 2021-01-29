@@ -24,21 +24,34 @@
 		<script type="text/babel">
 			const App = () => {
 				const [count, setCount] = React.useState(0);
+				const [counters, setCounters] = React.useState([]);
 				const decrement = () => {
-					setCount((prev) => prev - 1);
+					// setCount((prev) => prev - 1);
 				};
 				const increment = () => {
-					setCount((prev) => prev + 1);
+					// setCount((prev) => prev + 1);
+				};
+				const addCounter = () => {
+					setCounters(counters.concat([0]));
 				};
 				return (
 					<div>
-						<button className='btn btn-secondary' onClick={decrement}>
-							-
+						<button onClick={addCounter} className='btn btn-primary'>
+							Add Counter
 						</button>
-						<span className='h3 m-3'>{count}</span>
-						<button className='btn btn-secondary' onClick={increment}>
-							+
-						</button>
+						{counters.map((ele, index) => {
+							return (
+								<div key={index}>
+									<button className='btn btn-secondary' onClick={decrement}>
+										-
+									</button>
+									<span className='h3 m-3'>{count}</span>
+									<button className='btn btn-secondary' onClick={increment}>
+										+
+									</button>
+								</div>
+							);
+						})}
 					</div>
 				);
 			};
