@@ -18,6 +18,31 @@
 		<!-- font awesome -->
 		<script src="https://kit.fontawesome.com/7f08385778.js" crossorigin="anonymous"></script>
 		<title>Document</title>
+		<style>
+			.card {
+				width: 32rem;
+				box-shadow: -2px 3px 17px -1px rgba(0, 0, 0, 0.63);
+				-webkit-box-shadow: -2px 3px 17px -1px rgba(0, 0, 0, 0.63);
+				-moz-box-shadow: -2px 3px 17px -1px rgba(0, 0, 0, 0.63);
+			}
+			.TodoApp {
+				text-align: center;
+			}
+			.filter {
+				width: 7rem;
+			}
+			.icon {
+				background: none;
+				border: none;
+			}
+			.todo-item {
+				font-weight: 700;
+			}
+			.input {
+				font-size: 1.3rem;
+				font-weight: 700;
+			}
+		</style>
 	</head>
 	<body>
 		<div id="root"></div>
@@ -38,7 +63,7 @@
 					</div>
 				);
 			};
-			const App = () => {
+			const CounterApp = () => {
 				const [count, setCount] = React.useState(0);
 				const [counters, setCounters] = React.useState([]);
 				const decrement = (index) => {
@@ -73,6 +98,114 @@
 								</div>
 							);
 						})}
+					</div>
+				);
+			};
+
+			const TodoItem = ({ text }) => {
+				console.log('To do Item ' + text);
+				return (
+					<div>
+						<div className='row m-1 mt-2 mb-2'>
+							<div className='col col-1'>
+								<input type='checkbox' name='' id='' />
+							</div>
+							<div className='col col-9'>
+								<p className='todo-item'>{text}</p>
+							</div>
+							<div className='col col-1'>
+								<button className='icon'>
+									<i className='fas fa-edit text-warning'></i>
+								</button>
+							</div>
+							<div className='col col-1'>
+								<button className='icon'>
+									<i className='fas fa-trash-alt  text-danger'></i>
+								</button>
+							</div>
+						</div>
+					</div>
+				);
+			};
+			const FilterButtons = () => {
+				return (
+					<div className='d-flex justify-content-around mb-3'>
+						<button className='btn btn-primary filter'>All</button>
+						<button className='btn btn-success filter'>Conpleted</button>
+						<button className='btn btn-danger filter'>Deleted</button>
+					</div>
+				);
+			};
+			const InputArea = ({ text, addItem, setText }) => {
+				return (
+					<div className=' d-flex justify-content-center mb-5'>
+						<div className='card '>
+							<div className='card-body'>
+								<div className='row'>
+									<div className='col col-10'>
+										<input
+											className='form-control input'
+											type='text'
+											name='item'
+											id='item'
+											onChange={setText}
+										/>
+									</div>
+									<div className='col col-2'>
+										<button className='btn btn-info' onClick={addItem}>
+											Add
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				);
+			};
+			const TodoApp = () => {
+				// states
+				const [text, setText] = React.useState('');
+				const [todo, setTodo] = React.useState([]);
+				// functions
+
+				const addItem = () => {
+					setTodo(todo.concat([text]));
+				};
+				console.log('ToDo App  ' + text);
+				return (
+					<div>
+						<h1 className='TodoApp'>Todo App</h1>
+						<InputArea text={text} addItem={addItem} setText={(e) => setText(e.target.value)} />
+						<div className=' d-flex justify-content-center'>
+							<div className='card '>
+								<div className='card-body '>
+									<FilterButtons />
+									{todo.map((item, index) => {
+										console.log(item);
+										return (
+											<div key={index}>
+												<TodoItem text={item} />
+											</div>
+										);
+									})}
+								</div>
+							</div>
+						</div>
+					</div>
+				);
+			};
+
+			const App = () => {
+				const [show, setShow] = React.useState('TODO');
+				const change = () => {
+					setShow(show === 'TODO' ? 'COUNTER' : 'TODO');
+				};
+				return (
+					<div>
+						<button onClick={change} className='btn btn-primary'>
+							Change App
+						</button>
+						{show === 'TODO' ? <TodoApp /> : <CounterApp />}
 					</div>
 				);
 			};
