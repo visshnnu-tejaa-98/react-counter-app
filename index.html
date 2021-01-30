@@ -161,6 +161,7 @@
 					</div>
 				);
 			};
+			var deletedItems = [];
 			const TodoApp = () => {
 				// states
 				const [text, setText] = React.useState('');
@@ -171,8 +172,13 @@
 				};
 				const deleteItem = (index) => {
 					let array = todo;
-					array.splice(index, 1);
+					// let dummy = todo;
+					let deletedItem = array.splice(index, 1);
+					// array.splice(index, 1);
+					deletedItems.push(deletedItem);
+
 					setTodo(array.map((ele, idx) => (idx !== index ? ele : ele)));
+					console.log(deletedItems);
 				};
 				return (
 					<div>
