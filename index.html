@@ -42,6 +42,9 @@
 				font-size: 1.3rem;
 				font-weight: 700;
 			}
+			.check {
+				font-size: 1.2rem;
+			}
 		</style>
 	</head>
 	<body>
@@ -102,12 +105,14 @@
 				);
 			};
 
-			const TodoItem = ({ text, deleteItem }) => {
+			const TodoItem = ({ text, deleteItem, completedItem }) => {
 				return (
 					<div>
 						<div className='row m-1 mt-2 mb-2'>
 							<div className='col col-1'>
-								<input type='checkbox' name='' id='' />
+								<button className='icon' onClick={completedItem}>
+									<i className='fas fa-check-square text-primary check'></i>
+								</button>
 							</div>
 							<div className='col col-9'>
 								<p className='todo-item'>{text}</p>
@@ -162,6 +167,7 @@
 				);
 			};
 			var deletedItems = [];
+			var completedItems = [];
 			const TodoApp = () => {
 				// states
 				const [text, setText] = React.useState('');
@@ -172,13 +178,17 @@
 				};
 				const deleteItem = (index) => {
 					let array = todo;
-					// let dummy = todo;
 					let deletedItem = array.splice(index, 1);
-					// array.splice(index, 1);
 					deletedItems.push(deletedItem);
-
 					setTodo(array.map((ele, idx) => (idx !== index ? ele : ele)));
-					console.log(deletedItems);
+					// console.log(deletedItems);
+				};
+				const completedItem = (index) => {
+					let array = todo;
+					let completedItem = array.splice(index, 1);
+					completedItems.push(completedItem);
+					setTodo(array.map((ele, idx) => (idx !== index ? ele : ele)));
+					// console.log(completedItems);
 				};
 				return (
 					<div>
@@ -191,7 +201,11 @@
 									{todo.map((item, index) => {
 										return (
 											<div key={index}>
-												<TodoItem text={item} deleteItem={() => deleteItem(index)} />
+												<TodoItem
+													text={item}
+													deleteItem={() => deleteItem(index)}
+													completedItem={() => completedItem(index)}
+												/>
 											</div>
 										);
 									})}
