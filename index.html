@@ -102,8 +102,7 @@
 				);
 			};
 
-			const TodoItem = ({ text }) => {
-				console.log('To do Item ' + text);
+			const TodoItem = ({ text, deleteItem }) => {
 				return (
 					<div>
 						<div className='row m-1 mt-2 mb-2'>
@@ -119,7 +118,7 @@
 								</button>
 							</div>
 							<div className='col col-1'>
-								<button className='icon'>
+								<button className='icon' onClick={deleteItem}>
 									<i className='fas fa-trash-alt  text-danger'></i>
 								</button>
 							</div>
@@ -167,11 +166,14 @@
 				const [text, setText] = React.useState('');
 				const [todo, setTodo] = React.useState([]);
 				// functions
-
 				const addItem = () => {
 					setTodo(todo.concat([text]));
 				};
-				console.log('ToDo App  ' + text);
+				const deleteItem = (index) => {
+					let array = todo;
+					array.splice(index, 1);
+					setTodo(array.map((ele, idx) => (idx !== index ? ele : ele)));
+				};
 				return (
 					<div>
 						<h1 className='TodoApp'>Todo App</h1>
@@ -179,12 +181,11 @@
 						<div className=' d-flex justify-content-center'>
 							<div className='card '>
 								<div className='card-body '>
-									<FilterButtons />
+									<FilterButtons deleteItem={deleteItem} />
 									{todo.map((item, index) => {
-										console.log(item);
 										return (
 											<div key={index}>
-												<TodoItem text={item} />
+												<TodoItem text={item} deleteItem={() => deleteItem(index)} />
 											</div>
 										);
 									})}
