@@ -17,7 +17,7 @@
 		/>
 		<!-- font awesome -->
 		<script src="https://kit.fontawesome.com/7f08385778.js" crossorigin="anonymous"></script>
-		<title>Document</title>
+		<title>Todo List</title>
 		<style>
 			.card {
 				width: 32rem;
@@ -105,7 +105,7 @@
 				);
 			};
 
-			const TodoItem = ({ text, deleteItem, completedItem }) => {
+			const TodoItem = ({ text, deleteItem, completedItem, editItem }) => {
 				return (
 					<div>
 						<div className='row m-1 mt-2 mb-2'>
@@ -118,7 +118,7 @@
 								<p className='todo-item'>{text}</p>
 							</div>
 							<div className='col col-1'>
-								<button className='icon'>
+								<button className='icon' onClick={editItem}>
 									<i className='fas fa-edit text-warning'></i>
 								</button>
 							</div>
@@ -131,12 +131,19 @@
 					</div>
 				);
 			};
-			const FilterButtons = () => {
+			const FilterButtons = ({ completed, active, deleted }) => {
 				return (
 					<div className='d-flex justify-content-around mb-3'>
-						<button className='btn btn-primary filter'>All</button>
-						<button className='btn btn-success filter'>Conpleted</button>
-						<button className='btn btn-danger filter'>Deleted</button>
+						<button className='btn btn-primary filter' onClick={active}>
+							All
+						</button>
+
+						<button className='btn btn-success filter' onClick={completed}>
+							Completed
+						</button>
+						<button className='btn btn-danger filter' onClick={deleted}>
+							Deleted
+						</button>
 					</div>
 				);
 			};
@@ -152,6 +159,7 @@
 											type='text'
 											name='item'
 											id='item'
+											value={text}
 											onChange={setText}
 										/>
 									</div>
@@ -166,8 +174,11 @@
 					</div>
 				);
 			};
+			var allItems = [];
 			var deletedItems = [];
 			var completedItems = [];
+			let activeItems = [];
+
 			const TodoApp = () => {
 				// states
 				const [text, setText] = React.useState('');
@@ -175,6 +186,9 @@
 				// functions
 				const addItem = () => {
 					setTodo(todo.concat([text]));
+					allItems = [...todo, text];
+					console.log(allItems);
+					setText('');
 				};
 				const deleteItem = (index) => {
 					let array = todo;
@@ -190,14 +204,43 @@
 					setTodo(array.map((ele, idx) => (idx !== index ? ele : ele)));
 					// console.log(completedItems);
 				};
+				const editItem = (index, item) => {
+					let array = todo;
+					let items = array.splice(index, 1);
+					setTodo(array.map((ele, idx) => (idx !== index ? ele : ele)));
+					// console.log(index, item);
+					setText(item);
+				};
+				const completed = () => {
+					console.log(completedItems);
+					setTodo(completedItems.map((ele) => ele));
+				};
+				const active = () => {
+					let array = allItems;
+					setTodo(array.map((ele) => ele));
+				};
+				const deleted = () => {
+					let array = deletedItems;
+					setTodo(array.map((ele) => ele));
+				};
 				return (
 					<div>
 						<h1 className='TodoApp'>Todo App</h1>
-						<InputArea text={text} addItem={addItem} setText={(e) => setText(e.target.value)} />
+						<InputArea
+							text={text}
+							value={text}
+							addItem={addItem}
+							setText={(e) => setText(e.target.value)}
+						/>
 						<div className=' d-flex justify-content-center'>
 							<div className='card '>
 								<div className='card-body '>
-									<FilterButtons deleteItem={deleteItem} />
+									<FilterButtons
+										deleteItem={deleteItem}
+										completed={completed}
+										active={active}
+										deleted={deleted}
+									/>
 									{todo.map((item, index) => {
 										return (
 											<div key={index}>
@@ -205,6 +248,7 @@
 													text={item}
 													deleteItem={() => deleteItem(index)}
 													completedItem={() => completedItem(index)}
+													editItem={() => editItem(index, item)}
 												/>
 											</div>
 										);
